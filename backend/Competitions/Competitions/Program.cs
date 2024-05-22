@@ -1,37 +1,50 @@
-using Competitions.Data;
+using Competitions.Application.Services;
+using Competitions.DataAccess;
+using Competitions.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connection));
+builder.Services.AddDbContext<CompetitionsDbContext>(
+    options =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CompetitionsDbContext)));
+    });
+
+builder.Services.AddScoped<CoachesService>();
+builder.Services.AddScoped<CoachesRepository>();
+
+builder.Services.AddScoped<CompetitionsService>();
+builder.Services.AddScoped<CompetitionsRepository>();
+
+builder.Services.AddScoped<KindOfSportsService>();
+builder.Services.AddScoped<KindOfSportsRepository>();
+
+builder.Services.AddScoped<StudentsService>();
+builder.Services.AddScoped<StudentsRepository>();
+
+builder.Services.AddScoped<TeamsService>();
+builder.Services.AddScoped<TeamsRepository>();
+
+builder.Services.AddScoped<UniversitiesService>();
+builder.Services.AddScoped<UniversitiesRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
-    name: "api",
-    pattern: "api/{controller=Competitions}/{action=Index}/{id?}");
+app.MapControllers();
 
 app.Run();
