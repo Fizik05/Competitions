@@ -22,6 +22,11 @@ namespace Competitions.Application.Services
             return await _teamsRepository.GetById(id);
         }
 
+        public async Task<Result<List<Student>>> GetStudentOfTeam(int id)
+        {
+            return await _teamsRepository.GetStudents(id);
+        }
+
         public async Task<Result<Team>> CreateTeam(Team team)
         {
             return await _teamsRepository.Create(team);

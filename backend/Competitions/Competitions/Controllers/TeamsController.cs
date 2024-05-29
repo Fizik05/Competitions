@@ -1,4 +1,5 @@
 ﻿using Competitions.Application.Services;
+using Competitions.Contracts.Students;
 using Competitions.Contracts.Teams;
 using Competitions.Core.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +57,25 @@ namespace Competitions.Controllers
                 team.KindOfSport,
                 team.University,
                 team.Coach);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id:int}/Students")]
+        public async Task<ActionResult<List<StudentsResponse>>> GetStudentsOfTeam(int id)
+        {
+            var result = await _teamsService.GetStudentOfTeam(id);
+
+            var students = result.Value;
+
+            var response = students
+                .Select(s => new StudentsResponse(
+                    s.Id,
+                    s.Name,
+                    s.Surname,
+                    s.DateOfBirth,
+                    s.Team))
+                .ToList();
 
             return Ok(response);
         }

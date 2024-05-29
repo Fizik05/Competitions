@@ -20,6 +20,12 @@ namespace Competitions.DataAccess.Repositories
                 .Include(s => s.Team)
                 .ToListAsync();
 
+            var teams = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .ToListAsync();
+
             var students = studentsEntities
                 .Select(s => Student.Create(
                     s.Id,

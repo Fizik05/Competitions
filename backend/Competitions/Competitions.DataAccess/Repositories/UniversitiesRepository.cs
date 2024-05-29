@@ -43,6 +43,30 @@ namespace Competitions.DataAccess.Repositories
             return Result.Success(university);
         }
 
+        public async Task<Result<List<Team>>> GetTeams(int id)
+        {
+            var teamsEntity = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Where(t => t.UniversityId == id)
+                .ToListAsync();
+
+            var teams = teamsEntity
+                .Select(t => Team.Create(
+                    t.Id,
+                    t.Name,
+                    t.KindOfSportId,
+                    t.UniversityId,
+                    t.CoachId,
+                    KindOfSport.Create(t.KindOfSportId, t.KindOfSport.Name).kindOfSport,
+                    University.Create(t.UniversityId, t.University.Name).university,
+                    Coach.Create(t.CoachId, t.Coach.Name, t.Coach.Surname, t.Coach.DateOfBirth).coach).team)
+                .ToList();
+
+            return teams;
+        }
+
         public async Task<Result<University>> Create(University university)
         {
             int newId = await _context.Universities.MaxAsync(u => (int?)u.Id) ?? 0;
