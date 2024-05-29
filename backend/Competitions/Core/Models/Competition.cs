@@ -4,12 +4,13 @@ namespace Competitions.Core.Models
 {
     public class Competition
     {
-        private Competition(int id, string name, string description, int kindOfSportId)
+        private Competition(int id, string name, string description, int kindOfSportId, KindOfSport kindOfSport)
         {
             Id = id;
             Name = name;
             Description = description;
             KindOfSportId = kindOfSportId;
+            KindOfSport = kindOfSport;
         }
 
         public int Id { get; set; }
@@ -22,7 +23,7 @@ namespace Competitions.Core.Models
 
         public List<Team> Teams { get; set; } = [];
 
-        public static (Competition competition, string Error) Create(int id, string name, string description, int kindOfSportId)
+        public static (Competition competition, string Error) Create(int id, string name, string description, int kindOfSportId, KindOfSport? kindOfSport)
         {
             var error = string.Empty;
 
@@ -36,7 +37,7 @@ namespace Competitions.Core.Models
                 error = "The Description field can't be empty";
             }
 
-            var competition = new Competition(id, name, description, kindOfSportId);
+            var competition = new Competition(id, name, description, kindOfSportId, kindOfSport);
 
             return (competition, error);
         }

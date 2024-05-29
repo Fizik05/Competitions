@@ -1,10 +1,8 @@
 ﻿using Competitions.Application.Services;
 using Competitions.Contracts.Coaches;
-using Competitions.Contracts.KindOfSports;
 using Competitions.Contracts.Teams;
 using Competitions.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace Competitions.Controllers
 {

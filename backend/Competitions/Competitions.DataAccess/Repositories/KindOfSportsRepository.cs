@@ -18,6 +18,7 @@ namespace Competitions.DataAccess.Repositories
         {
             var kindOfSportsEntites = await _context.KindOfSports
                 .AsNoTracking()
+                .OrderBy(k => k.Id)
                 .ToListAsync();
 
             var kindOfSports = kindOfSportsEntites

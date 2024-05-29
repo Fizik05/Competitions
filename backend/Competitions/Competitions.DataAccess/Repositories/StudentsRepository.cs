@@ -21,7 +21,22 @@ namespace Competitions.DataAccess.Repositories
                 .ToListAsync();
 
             var students = studentsEntities
-                .Select(s => Student.Create(s.Id, s.Name, s.Surname, s.DateOfBirth, s.TeamId).student)
+                .Select(s => Student.Create(
+                    s.Id,
+                    s.Name,
+                    s.Surname,
+                    s.DateOfBirth,
+                    s.TeamId,
+                    Team.Create(
+                        s.TeamId,
+                        s.Team.Name,
+                        s.Team.KindOfSportId,
+                        s.Team.UniversityId,
+                        s.Team.CoachId,
+                        KindOfSport.Create(s.Team.KindOfSport.Id, s.Team.KindOfSport.Name).kindOfSport,
+                        University.Create(s.Team.University.Id, s.Team.University.Name).university,
+                        Coach.Create(s.Team.Coach.Id, s.Team.Coach.Name, s.Team.Coach.Surname, s.Team.Coach.DateOfBirth).coach).team)
+                    .student)
                 .ToList();
 
             return students;
@@ -32,7 +47,9 @@ namespace Competitions.DataAccess.Repositories
             var error = string.Empty;
 
             var studentEntity = await _context.Students
-                .FindAsync(id);
+                .Include(s => s.Team)
+                .Where(s => s.Id == id)
+                .FirstOrDefaultAsync();
 
             if (studentEntity is null)
             {
@@ -40,7 +57,36 @@ namespace Competitions.DataAccess.Repositories
                 return (null, error);
             }
 
-            var student = Student.Create(studentEntity.Id, studentEntity.Name, studentEntity.Surname, studentEntity.DateOfBirth, studentEntity.TeamId).student;
+            var teamEntity = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Where(t => t.Id == studentEntity.TeamId)
+                .FirstOrDefaultAsync();
+
+            var kindOfSport = KindOfSport.Create(
+                teamEntity.KindOfSportId,
+                teamEntity.KindOfSport.Name).kindOfSport;
+            var university = University.Create(
+                teamEntity.UniversityId,
+                teamEntity.University.Name).university;
+            var coach = Coach.Create(
+                teamEntity.CoachId,
+                teamEntity.Coach.Name,
+                teamEntity.Coach.Surname,
+                teamEntity.Coach.DateOfBirth).coach;
+
+            var team = Team.Create(
+                teamEntity.Id,
+                teamEntity.Name,
+                teamEntity.KindOfSportId,
+                teamEntity.UniversityId,
+                teamEntity.CoachId,
+                kindOfSport,
+                university,
+                coach).team;
+
+            var student = Student.Create(studentEntity.Id, studentEntity.Name, studentEntity.Surname, studentEntity.DateOfBirth, studentEntity.TeamId, team).student;
 
             return (student, error);
         }
@@ -49,9 +95,14 @@ namespace Competitions.DataAccess.Repositories
         {
             var error = string.Empty;
 
-            var teamExists = await _context.Teams.AnyAsync(t => t.Id == student.TeamId);
+            var teamEntity = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Where(t => t.Id == student.TeamId)
+                .FirstOrDefaultAsync();
 
-            if (!teamExists)
+            if (teamEntity is null)
             {
                 error = "The Team with this id is not exists";
                 return (null, error);
@@ -72,6 +123,30 @@ namespace Competitions.DataAccess.Repositories
             await _context.Students.AddAsync(studentEntity);
             await _context.SaveChangesAsync();
 
+            var kindOfSport = KindOfSport.Create(
+                teamEntity.KindOfSportId,
+                teamEntity.KindOfSport.Name).kindOfSport;
+            var university = University.Create(
+                teamEntity.UniversityId,
+                teamEntity.University.Name).university;
+            var coach = Coach.Create(
+                teamEntity.CoachId,
+                teamEntity.Coach.Name,
+                teamEntity.Coach.Surname,
+                teamEntity.Coach.DateOfBirth).coach;
+
+            var team = Team.Create(
+                teamEntity.Id,
+                teamEntity.Name,
+                teamEntity.KindOfSportId,
+                teamEntity.UniversityId,
+                teamEntity.CoachId,
+                kindOfSport,
+                university,
+                coach).team;
+
+            student.Team = team;
+
             return (student, error);
         }
 
@@ -79,9 +154,14 @@ namespace Competitions.DataAccess.Repositories
         {
             var error = string.Empty;
 
-            var teamExists = await _context.Teams.AnyAsync(t => t.Id == teamId);
+            var teamEntity = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Where(t => t.Id == teamId)
+                .FirstOrDefaultAsync();
 
-            if (!teamExists)
+            if (teamEntity is null)
             {
                 error = "The Team with this id is not exists. Error during save to database";
                 return (null, error);
@@ -95,7 +175,29 @@ namespace Competitions.DataAccess.Repositories
                     .SetProperty(s => s.DateOfBirth, s => DateTime.SpecifyKind(dateOfBirth, DateTimeKind.Utc))
                     .SetProperty(s => s.TeamId, s => teamId));
 
-            var student = Student.Create(id, name, surname, dateOfBirth, teamId).student;
+            var kindOfSport = KindOfSport.Create(
+                teamEntity.KindOfSportId,
+                teamEntity.KindOfSport.Name).kindOfSport;
+            var university = University.Create(
+                teamEntity.UniversityId,
+                teamEntity.University.Name).university;
+            var coach = Coach.Create(
+                teamEntity.CoachId,
+                teamEntity.Coach.Name,
+                teamEntity.Coach.Surname,
+                teamEntity.Coach.DateOfBirth).coach;
+
+            var team = Team.Create(
+                teamEntity.Id,
+                teamEntity.Name,
+                teamEntity.KindOfSportId,
+                teamEntity.UniversityId,
+                teamEntity.CoachId,
+                kindOfSport,
+                university,
+                coach).team;
+
+            var student = Student.Create(id, name, surname, dateOfBirth, teamId, team).student;
 
             return (student, error);
         }

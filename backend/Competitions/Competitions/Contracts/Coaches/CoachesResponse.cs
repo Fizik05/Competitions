@@ -1,4 +1,6 @@
-﻿namespace Competitions.Contracts.Coaches
+﻿using Competitions.Core.Models;
+
+namespace Competitions.Contracts.Coaches
 {
     public record CoachesResponse(
         int Id,

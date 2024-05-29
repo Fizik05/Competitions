@@ -25,7 +25,7 @@ namespace Competitions.Controllers
             var students = await _studentsService.GetAllStudents();
 
             var studentsRespone = students
-                .Select(s => new StudentsResponse(s.Id, s.Name, s.Surname, s.DateOfBirth, s.TeamId))
+                .Select(s => new StudentsResponse(s.Id, s.Name, s.Surname, s.DateOfBirth, s.Team))
                 .ToList();
 
             return Ok(studentsRespone);
@@ -41,7 +41,7 @@ namespace Competitions.Controllers
                 return BadRequest(error);
             }
 
-            var response = new StudentsResponse(student.Id, student.Name, student.Surname, student.DateOfBirth, student.TeamId);
+            var response = new StudentsResponse(student.Id, student.Name, student.Surname, student.DateOfBirth, student.Team);
 
             return Ok(response);
         }
@@ -54,21 +54,22 @@ namespace Competitions.Controllers
                 request.Name,
                 request.Surname,
                 request.DateOfBirth,
-                request.TeamId);
+                request.TeamId,
+                null);
 
             if (!string.IsNullOrEmpty(error))
             {
-                return BadRequest(error);
+                return BadRequest(error + "first");
             }
 
             var (createdStudent, error2)= await _studentsService.CreateStudent(student);
 
             if (!string.IsNullOrEmpty(error2) || createdStudent is null)
             {
-                return BadRequest(error2);
+                return BadRequest(error2 + "second");
             }
             
-            var responseStudent = new StudentsResponse(createdStudent.Id, createdStudent.Name, createdStudent.Surname, createdStudent.DateOfBirth, createdStudent.TeamId);
+            var responseStudent = new StudentsResponse(createdStudent.Id, createdStudent.Name, createdStudent.Surname, createdStudent.DateOfBirth, createdStudent.Team);
 
             return Ok(responseStudent);
         }
@@ -88,7 +89,7 @@ namespace Competitions.Controllers
                 return BadRequest(error);
             }
 
-            var responseStudent = new StudentsResponse(student.Id, student.Name, student.Surname, student.DateOfBirth, student.TeamId);
+            var responseStudent = new StudentsResponse(student.Id, student.Name, student.Surname, student.DateOfBirth, student.Team);
 
             return Ok(responseStudent);
         }

@@ -4,13 +4,16 @@ namespace Competitions.Core.Models
 {
     public class Team
     {
-        private Team(int id, string name, int kindOfSportId, int universityId, int coachId)
+        private Team(int id, string name, int kindOfSportId, int universityId, int coachId, KindOfSport kindOfSport, University university, Coach coach)
         {
             Id = id;
             Name = name;
             KindOfSportId = kindOfSportId;
             UniversityId = universityId;
             CoachId = coachId;
+            KindOfSport = kindOfSport;
+            University = university;
+            Coach = coach;
         }
 
         public int Id { get; set; }
@@ -26,11 +29,11 @@ namespace Competitions.Core.Models
 
         public int CoachId { get; private set; }
         [ForeignKey(nameof(CoachId))]
-        public Coach? Coach { get; private set; }
+        public Coach? Coach { get; set; }
 
         public List<Competition> Competitions { get; set; } = [];
 
-        public static (Team team, string error) Create(int id, string name, int kindOfSportId, int universityId, int coachId)
+        public static (Team team, string error) Create(int id, string name, int kindOfSportId, int universityId, int coachId, KindOfSport? kindOfSport, University? university, Coach? coach)
         {
             var error = string.Empty;
 
@@ -39,7 +42,7 @@ namespace Competitions.Core.Models
                 error = "The Name field can't be empty";
             }
 
-            var team = new Team(id, name, kindOfSportId, universityId, coachId);
+            var team = new Team(id, name, kindOfSportId, universityId, coachId, kindOfSport, university, coach);
 
             return (team, error);
         } 

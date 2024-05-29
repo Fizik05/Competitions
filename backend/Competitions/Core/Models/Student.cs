@@ -5,13 +5,14 @@ namespace Competitions.Core.Models
 {
     public class Student
     {
-        private Student(int id, string name, string surname, DateTime dateOfBirth, int teamId)
+        private Student(int id, string name, string surname, DateTime dateOfBirth, int teamId, Team? team)
         {
             Id = id;
             Name = name;
             Surname = surname;
             DateOfBirth = dateOfBirth;
             TeamId = teamId;
+            Team = team;
         }
 
         public int Id { get; set; }
@@ -25,7 +26,7 @@ namespace Competitions.Core.Models
         [ForeignKey(nameof(TeamId))]
         public Team? Team { get; set; }
 
-        public static (Student student, string error) Create(int id, string name, string surname, DateTime dateOfBirth, int teamId)
+        public static (Student student, string error) Create(int id, string name, string surname, DateTime dateOfBirth, int teamId, Team? team)
         {
             var error = string.Empty;
 
@@ -39,7 +40,7 @@ namespace Competitions.Core.Models
                 error = "The Name field can't be empty";
             }
 
-            var student = new Student(id, name, surname, DateTime.SpecifyKind(dateOfBirth, DateTimeKind.Utc), teamId);
+            var student = new Student(id, name, surname, DateTime.SpecifyKind(dateOfBirth, DateTimeKind.Utc), teamId, team);
 
             return (student, error);
         }
