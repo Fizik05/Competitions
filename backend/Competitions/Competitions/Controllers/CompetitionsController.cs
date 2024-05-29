@@ -1,5 +1,6 @@
 ﻿using Competitions.Application.Services;
 using Competitions.Contracts.Competitions;
+using Competitions.Contracts.Teams;
 using Competitions.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -54,6 +55,78 @@ namespace Competitions.Controllers
                 competition.Name,
                 competition.Description,
                 competition.KindOfSport);
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id:int}/Teams")]
+        public async Task<ActionResult<List<TeamsResponse>>> GetTeamsOfCompetition(int id)
+        {
+            var result = await _competitionsService.GetTeamsOfCompetition(id);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            var teams = result.Value;
+
+            var response = teams
+                .Select(t => new TeamsResponse(
+                    t.Id,
+                    t.Name,
+                    t.KindOfSport,
+                    t.University,
+                    t.Coach))
+                .ToList();
+
+            return Ok(response);
+        }
+
+        [HttpPost("{id:int}/Teams/Add/{teamId:int}")]
+        public async Task<ActionResult<List<Team>>> AddTeam(int id, int teamId)
+        {
+            var result = await _competitionsService.AddTeam(id, teamId);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            var teams = result.Value;
+
+            var response = teams
+                .Select(t => new TeamsResponse(
+                    t.Id,
+                    t.Name,
+                    t.KindOfSport,
+                    t.University,
+                    t.Coach))
+                .ToList();
+
+            return Ok(response);
+        }
+
+        [HttpDelete("{id:int}/Teams/Delete/{teamId:int}")]
+        public async Task<ActionResult<List<Team>>> DeleteTeam(int id, int teamId)
+        {
+            var result = await _competitionsService.DeleteTeam(id, teamId);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            var teams = result.Value;
+
+            var response = teams
+                .Select(t => new TeamsResponse(
+                    t.Id,
+                    t.Name,
+                    t.KindOfSport,
+                    t.University,
+                    t.Coach))
+                .ToList();
 
             return Ok(response);
         }

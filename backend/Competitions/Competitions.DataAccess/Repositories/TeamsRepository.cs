@@ -112,6 +112,93 @@ namespace Competitions.DataAccess.Repositories
             return Result.Success(students);
         }
 
+        public async Task<Result<List<Competition>>> GetCompetitions(int id)
+        {
+            var teamEntity = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Include(t => t.Competitions)
+                .Where(t => t.Id == id)
+                .FirstOrDefaultAsync();
+
+            var competitionsEntity = await _context.Competitions
+                .Include(c => c.KindOfSport)
+                .Include(c => c.Teams)
+                .Where(c => c.Teams.Contains(teamEntity))
+                .ToListAsync();
+
+            if (teamEntity is null)
+            {
+                return Result.Failure<List<Competition>>("The Team with this Id is not found");
+            }
+
+            var competitions = competitionsEntity
+                .Select(c => Competition.Create(
+                    c.Id,
+                    c.Name,
+                    c.Description,
+                    c.KindOfSportId,
+                    KindOfSport.Create(c.KindOfSport.Id, c.KindOfSport.Name).kindOfSport).competition)
+                .ToList();
+
+            return Result.Success(competitions);
+        }
+
+        public async Task<Result<List<Competition>>> AddCompetition(int id, int competitionId)
+        {
+            var competition = await _context.Competitions
+                .Include(c => c.KindOfSportId)
+                .Include(c => c.Teams)
+                .Where(c => c.Id == competitionId)
+                .FirstOrDefaultAsync();
+
+            if (competition is null)
+            {
+                return Result.Failure<List<Competition>>("The Competition with this Id is not found");
+            }
+
+            var team = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Include(t => t.Competitions)
+                .Where(t => t.Id == id)
+                .FirstOrDefaultAsync();
+
+            team.Competitions.Add(competition);
+            await _context.SaveChangesAsync();
+
+            return await GetCompetitions(id);
+        }
+
+        public async Task<Result<List<Competition>>> DeleteCompetition(int id, int competitionId)
+        {
+            var competition = await _context.Competitions
+                .Include(c => c.KindOfSportId)
+                .Include(c => c.Teams)
+                .Where(c => c.Id == competitionId)
+                .FirstOrDefaultAsync();
+
+            if (competition is null)
+            {
+                return Result.Failure<List<Competition>>("The Competition with this Id is not found");
+            }
+
+            var team = await _context.Teams
+                .Include(t => t.KindOfSport)
+                .Include(t => t.University)
+                .Include(t => t.Coach)
+                .Include(t => t.Competitions)
+                .Where(t => t.Id == id)
+                .FirstOrDefaultAsync();
+
+            team.Competitions.Remove(competition);
+            await _context.SaveChangesAsync();
+
+            return await GetCompetitions(id);
+        }
+
         public async Task<Result<Team>> Create(Team team)
         {
             int newId = await _context.Teams.MaxAsync(c => (int?)c.Id) ?? 0;

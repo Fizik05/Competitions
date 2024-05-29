@@ -27,6 +27,21 @@ namespace Competitions.Application.Services
             return await _teamsRepository.GetStudents(id);
         }
 
+        public async Task<Result<List<Competition>>> GetCompetitionsOfTeam(int id)
+        {
+            return await _teamsRepository.GetCompetitions(id);
+        }
+
+        public async Task<Result<List<Competition>>> AddCompetition(int id, int competitionId)
+        {
+            return await _teamsRepository.AddCompetition(id, competitionId);
+        }
+
+        public async Task<Result<List<Competition>>> DeleteCompetition(int id, int competitionId)
+        {
+            return await _teamsRepository.DeleteCompetition(id, competitionId);
+        }
+
         public async Task<Result<Team>> CreateTeam(Team team)
         {
             return await _teamsRepository.Create(team);

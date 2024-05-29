@@ -1,4 +1,5 @@
 ﻿using Competitions.Application.Services;
+using Competitions.Contracts.Competitions;
 using Competitions.Contracts.Students;
 using Competitions.Contracts.Teams;
 using Competitions.Core.Models;
@@ -75,6 +76,75 @@ namespace Competitions.Controllers
                     s.Surname,
                     s.DateOfBirth,
                     s.Team))
+                .ToList();
+
+            return Ok(response);
+        }
+
+        [HttpGet("{id:int}/Competitions")]
+        public async Task<ActionResult<List<CompetitionsResponse>>> GetCompetitionsOfTeam(int id)
+        {
+            var result = await _teamsService.GetCompetitionsOfTeam(id);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            var competitions = result.Value;
+
+            var response = competitions
+                .Select(c => new CompetitionsResponse(
+                    c.Id,
+                    c.Name,
+                    c.Description,
+                    c.KindOfSport))
+                .ToList();
+
+            return Ok(response);
+        }
+
+        [HttpPost("{id:int}/Competitions/Add/{competitionId:int}")]
+        public async Task<ActionResult<List<CompetitionsResponse>>> AddCompetition(int id, int competitionId)
+        {
+            var result = await _teamsService.AddCompetition(id, competitionId);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            var competitions = result.Value;
+
+            var response = competitions
+                .Select(c => new CompetitionsResponse(
+                    c.Id,
+                    c.Name,
+                    c.Description,
+                    c.KindOfSport))
+                .ToList();
+
+            return Ok(response);
+        }
+
+        [HttpDelete("{id:int}/Competitions/Delete/{competitionsId:int}")]
+        public async Task<ActionResult<List<CompetitionsResponse>>> DeleteCompetition(int id, int competitionId)
+        {
+            var result = await _teamsService.AddCompetition(id, competitionId);
+
+            if (result.IsFailure)
+            {
+                return BadRequest(result.Error);
+            }
+
+            var competitions = result.Value;
+
+            var response = competitions
+                .Select(c => new CompetitionsResponse(
+                    c.Id,
+                    c.Name,
+                    c.Description,
+                    c.KindOfSport))
                 .ToList();
 
             return Ok(response);
