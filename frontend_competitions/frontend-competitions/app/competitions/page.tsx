@@ -3,7 +3,7 @@
 import Button from "antd/es/button/button"
 import { Competitions } from "../components/Competitions";
 import { useEffect, useState } from "react";
-//import { getAllCompetitions } from "../services/competitions";
+import { getAllCompetitions } from "../services/competitions";
 import Title from "antd/es/skeleton/Title";
 import { CreateUpdateCompetitions, Mode } from "../components/CreateUpdateCompetition";
 import { request } from "http";
@@ -26,7 +26,7 @@ export default function Competitionspage(){
   const[isModalOpen,setIsModalOpen] = useState(false);
   const[mode,setMode] = useState(Mode.Create);
   
-  /*
+  
   useEffect(()=>{
     const getCompetitions = async () => {
       const competitions = await getAllCompetitions();
@@ -35,7 +35,7 @@ export default function Competitionspage(){
     }; 
 
     getCompetitions();
-  },[]);*/
+  },[]);
 
   const handleCreateCompetition = async(request: CompetitionRequest) => {
     await createCompetition(request);

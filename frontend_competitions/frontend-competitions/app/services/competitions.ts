@@ -3,14 +3,14 @@ export interface CompetitionRequest{
   description:	string
 }
 
-/*export const getAllCompetitions = async()=>{
-  const response = await fetch("https://localhost:7036/api/Competitions");
+export const getAllCompetitions = async()=>{
+  const response = await fetch("https://localhost:5137/api/Competitions");
 
   return response.json();
 };
-*/
+
 export const createCompetition = async (competitionRequest: CompetitionRequest) => {
-  await fetch("https://localhost:7036/api/Competitions",{
+  await fetch("https://localhost:5137/api/Competitions",{
     method:"POST",
     headers: {
       "content-type": "application/json",

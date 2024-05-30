@@ -24,10 +24,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<CompetitionsDbContext>(
+services.AddDbContext<CompetitionsDbContext>(
     options =>
     {
-        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CompetitionsDbContext)));
+        options.UseNpgsql(configuration.GetConnectionString(nameof(CompetitionsDbContext)));
     });
 
 builder.Services.AddScoped<ICoachesService, CoachesService>();
@@ -66,5 +66,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(x =>
+{
+    x.WithHeaders().AllowAnyHeader();
+    x.WithOrigins("http:/localhost:3000");
+    x.WithMethods().AllowAnyMethod();
+});
 
 app.Run();
