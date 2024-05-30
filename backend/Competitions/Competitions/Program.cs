@@ -1,4 +1,10 @@
 using Competitions.Application.Services;
+using Competitions.Core.Abstractions.CoachesAbstractions;
+using Competitions.Core.Abstractions.CompetitionsAbstractions;
+using Competitions.Core.Abstractions.KindOfSportsAbstractions;
+using Competitions.Core.Abstractions.StudentsAbstractions;
+using Competitions.Core.Abstractions.TeamsAbstractions;
+using Competitions.Core.Abstractions.UniversittiesAbstractions;
 using Competitions.DataAccess;
 using Competitions.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -15,23 +21,23 @@ builder.Services.AddDbContext<CompetitionsDbContext>(
         options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(CompetitionsDbContext)));
     });
 
-builder.Services.AddScoped<CoachesService>();
-builder.Services.AddScoped<CoachesRepository>();
+builder.Services.AddScoped<ICoachesService, CoachesService>();
+builder.Services.AddScoped<ICoachesRepository, CoachesRepository>();
 
-builder.Services.AddScoped<CompetitionsService>();
-builder.Services.AddScoped<CompetitionsRepository>();
+builder.Services.AddScoped<ICompetitionsService, CompetitionsService>();
+builder.Services.AddScoped<ICompetitionsRepository, CompetitionsRepository>();
 
-builder.Services.AddScoped<KindOfSportsService>();
-builder.Services.AddScoped<KindOfSportsRepository>();
+builder.Services.AddScoped<IKindOfSportsService, KindOfSportsService>();
+builder.Services.AddScoped<IKindOfSportsRepository, KindOfSportsRepository>();
 
-builder.Services.AddScoped<StudentsService>();
-builder.Services.AddScoped<StudentsRepository>();
+builder.Services.AddScoped<IStudentsService, StudentsService>();
+builder.Services.AddScoped<IStudentsRepository, StudentsRepository>();
 
-builder.Services.AddScoped<TeamsService>();
-builder.Services.AddScoped<TeamsRepository>();
+builder.Services.AddScoped<ITeamsService, TeamsService>();
+builder.Services.AddScoped<ITeamsRepository, TeamsRepository>();
 
-builder.Services.AddScoped<UniversitiesService>();
-builder.Services.AddScoped<UniversitiesRepository>();
+builder.Services.AddScoped<IUniversitiesService, UniversitiesService>();
+builder.Services.AddScoped<IUniversitiesRepository, UniversitiesRepository>();
 
 var app = builder.Build();
 

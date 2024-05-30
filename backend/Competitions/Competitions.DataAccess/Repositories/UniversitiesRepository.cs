@@ -1,11 +1,12 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.UniversittiesAbstractions;
+using Competitions.Core.Models;
 using Competitions.DataAccess.Entities;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class UniversitiesRepository
+    public class UniversitiesRepository : IUniversitiesRepository
     {
         private readonly CompetitionsDbContext _context;
 
@@ -33,9 +34,9 @@ namespace Competitions.DataAccess.Repositories
             var universityEntity = await _context.Universities
                 .FindAsync(id);
 
-            if (universityEntity is null) 
-            { 
-                return Result.Failure<University>("The University with this Id is not found"); 
+            if (universityEntity is null)
+            {
+                return Result.Failure<University>("The University with this Id is not found");
             }
 
             var university = University.Create(universityEntity.Id, universityEntity.Name).university;

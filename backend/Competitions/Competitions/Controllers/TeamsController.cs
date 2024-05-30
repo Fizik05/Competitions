@@ -1,7 +1,7 @@
-﻿using Competitions.Application.Services;
-using Competitions.Contracts.Competitions;
+﻿using Competitions.Contracts.Competitions;
 using Competitions.Contracts.Students;
 using Competitions.Contracts.Teams;
+using Competitions.Core.Abstractions.TeamsAbstractions;
 using Competitions.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,8 +11,8 @@ namespace Competitions.Controllers
     [Route("api/[controller]")]
     public class TeamsController: ControllerBase
     {
-        private TeamsService _teamsService;
-        public TeamsController(TeamsService teamsService)
+        private ITeamsService _teamsService;
+        public TeamsController(ITeamsService teamsService)
         {
             _teamsService = teamsService;
         }

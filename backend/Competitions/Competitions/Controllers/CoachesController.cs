@@ -1,6 +1,6 @@
-﻿using Competitions.Application.Services;
-using Competitions.Contracts.Coaches;
+﻿using Competitions.Contracts.Coaches;
 using Competitions.Contracts.Teams;
+using Competitions.Core.Abstractions.CoachesAbstractions;
 using Competitions.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,9 +10,9 @@ namespace Competitions.Controllers
     [Route("api/[controller]")]
     public class CoachesController: ControllerBase
     {
-        private readonly CoachesService _coachesService;
+        private readonly ICoachesService _coachesService;
 
-        public CoachesController(CoachesService coachesService)
+        public CoachesController(ICoachesService coachesService)
         {
             _coachesService = coachesService;
         }

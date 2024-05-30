@@ -1,15 +1,13 @@
-﻿using Competitions.Core.Models;
-using Competitions.DataAccess.Repositories;
-using Microsoft.VisualBasic;
-using System.ComponentModel.DataAnnotations;
+﻿using Competitions.Core.Abstractions.KindOfSportsAbstractions;
+using Competitions.Core.Models;
 
 namespace Competitions.Application.Services
 {
-    public class KindOfSportsService
+    public class KindOfSportsService : IKindOfSportsService
     {
-        private KindOfSportsRepository _kindOfSportRepository;
+        private IKindOfSportsRepository _kindOfSportRepository;
 
-        public KindOfSportsService(KindOfSportsRepository kindOfSportRepository)
+        public KindOfSportsService(IKindOfSportsRepository kindOfSportRepository)
         {
             _kindOfSportRepository = kindOfSportRepository;
         }

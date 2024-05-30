@@ -1,12 +1,13 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.StudentsAbstractions;
+using Competitions.Core.Models;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class StudentsService
+    public class StudentsService : IStudentsService
     {
-        private StudentsRepository _studentsRepository;
+        private IStudentsRepository _studentsRepository;
 
-        public StudentsService(StudentsRepository studentsRepository)
+        public StudentsService(IStudentsRepository studentsRepository)
         {
             _studentsRepository = studentsRepository;
         }

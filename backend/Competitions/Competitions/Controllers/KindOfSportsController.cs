@@ -1,9 +1,7 @@
-﻿using Competitions.Application.Services;
-using Competitions.Contracts.KindOfSports;
+﻿using Competitions.Contracts.KindOfSports;
+using Competitions.Core.Abstractions.KindOfSportsAbstractions;
 using Competitions.Core.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NpgsqlTypes;
 
 namespace Competitions.Controllers
 {
@@ -11,9 +9,9 @@ namespace Competitions.Controllers
     [Route("api/[controller]")]
     public class KindOfSportsController: ControllerBase
     {
-        private KindOfSportsService _kindOfSportsService;
+        private IKindOfSportsService _kindOfSportsService;
 
-        public KindOfSportsController(KindOfSportsService kindOfSportsService)
+        public KindOfSportsController(IKindOfSportsService kindOfSportsService)
         {
             _kindOfSportsService = kindOfSportsService;
         }

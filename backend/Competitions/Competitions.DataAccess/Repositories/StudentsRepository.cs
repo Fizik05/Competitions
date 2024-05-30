@@ -1,11 +1,12 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.StudentsAbstractions;
+using Competitions.Core.Models;
 using Competitions.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using NpgsqlTypes;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class StudentsRepository
+    public class StudentsRepository : IStudentsRepository
     {
         private readonly CompetitionsDbContext _context;
 

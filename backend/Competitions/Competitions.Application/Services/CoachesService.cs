@@ -1,13 +1,13 @@
-﻿using Competitions.Core.Models;
-using Competitions.DataAccess.Repositories;
+﻿using Competitions.Core.Abstractions.CoachesAbstractions;
+using Competitions.Core.Models;
 
 namespace Competitions.Application.Services
 {
-    public class CoachesService
+    public class CoachesService : ICoachesService
     {
-        private CoachesRepository _coachesRepository;
+        private ICoachesRepository _coachesRepository;
 
-        public CoachesService(CoachesRepository coachesRepository)
+        public CoachesService(ICoachesRepository coachesRepository)
         {
             _coachesRepository = coachesRepository;
         }

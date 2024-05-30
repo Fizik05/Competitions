@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  competitions:
+    image: ${DOCKER_REGISTRY-}competitions
+    build:
+      context: .
+      dockerfile: Competitions/Dockerfile
+    ports:
+        - "8080:80"
+    depends_on:
+        - db
+
+  db:
+      image: postgres:13
+      environment:
+        POSTGRES_DB: Competions
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: 14012005
+      ports:
+        - "5432:5432"

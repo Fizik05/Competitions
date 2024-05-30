@@ -1,11 +1,12 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.KindOfSportsAbstractions;
+using Competitions.Core.Models;
 using Competitions.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class KindOfSportsRepository
+    public class KindOfSportsRepository : IKindOfSportsRepository
     {
         private readonly CompetitionsDbContext _context;
 

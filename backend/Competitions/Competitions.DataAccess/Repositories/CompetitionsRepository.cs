@@ -1,11 +1,12 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.CompetitionsAbstractions;
+using Competitions.Core.Models;
 using Competitions.DataAccess.Entities;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class CompetitionsRepository
+    public class CompetitionsRepository : ICompetitionsRepository
     {
         private readonly CompetitionsDbContext _context;
 
@@ -18,7 +19,7 @@ namespace Competitions.DataAccess.Repositories
         {
             var competitionsEntities = await _context.Competitions
                 .Include(c => c.KindOfSport)
-                .OrderBy(c => c.Id) 
+                .OrderBy(c => c.Id)
                 .ToListAsync();
 
             var competitions = competitionsEntities

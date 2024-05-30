@@ -1,11 +1,12 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.CoachesAbstractions;
+using Competitions.Core.Models;
 using Competitions.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class CoachesRepository
+    public class CoachesRepository : ICoachesRepository
     {
         private readonly CompetitionsDbContext _context;
 

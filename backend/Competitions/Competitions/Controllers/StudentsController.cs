@@ -1,10 +1,7 @@
-﻿using Competitions.Application.Services;
-using Competitions.Contracts.Coaches;
-using Competitions.Contracts.Students;
+﻿using Competitions.Contracts.Students;
+using Competitions.Core.Abstractions.StudentsAbstractions;
 using Competitions.Core.Models;
-using Competitions.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.IO.Pipes;
 
 namespace Competitions.Controllers
 {
@@ -12,9 +9,9 @@ namespace Competitions.Controllers
     [Route("api/[controller]")]
     public class StudentsController: ControllerBase
     {
-        private readonly StudentsService _studentsService;
+        private readonly IStudentsService _studentsService;
 
-        public StudentsController(StudentsService studentsService)
+        public StudentsController(IStudentsService studentsService)
         {
             _studentsService = studentsService;
         }

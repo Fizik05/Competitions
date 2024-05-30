@@ -1,13 +1,13 @@
-﻿using Competitions.Core.Models;
-using Competitions.DataAccess.Repositories;
+﻿using Competitions.Core.Abstractions.TeamsAbstractions;
+using Competitions.Core.Models;
 using CSharpFunctionalExtensions;
 
 namespace Competitions.Application.Services
 {
-    public class TeamsService
+    public class TeamsService : ITeamsService
     {
-        private TeamsRepository _teamsRepository;
-        public TeamsService(TeamsRepository teamsRepository)
+        private ITeamsRepository _teamsRepository;
+        public TeamsService(ITeamsRepository teamsRepository)
         {
             _teamsRepository = teamsRepository;
         }

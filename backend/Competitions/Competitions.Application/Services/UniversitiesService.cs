@@ -1,13 +1,13 @@
-﻿using Competitions.Core.Models;
-using Competitions.DataAccess.Repositories;
+﻿using Competitions.Core.Abstractions.UniversittiesAbstractions;
+using Competitions.Core.Models;
 using CSharpFunctionalExtensions;
 
 namespace Competitions.Application.Services
 {
-    public class UniversitiesService
+    public class UniversitiesService : IUniversitiesService
     {
-        private UniversitiesRepository _universitiesRepository;
-        public UniversitiesService(UniversitiesRepository repository)
+        private IUniversitiesRepository _universitiesRepository;
+        public UniversitiesService(IUniversitiesRepository repository)
         {
             _universitiesRepository = repository;
         }

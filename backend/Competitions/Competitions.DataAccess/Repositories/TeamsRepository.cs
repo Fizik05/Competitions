@@ -1,11 +1,12 @@
-﻿using Competitions.Core.Models;
+﻿using Competitions.Core.Abstractions.TeamsAbstractions;
+using Competitions.Core.Models;
 using Competitions.DataAccess.Entities;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace Competitions.DataAccess.Repositories
 {
-    public class TeamsRepository
+    public class TeamsRepository : ITeamsRepository
     {
         private readonly CompetitionsDbContext _context;
 
