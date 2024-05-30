@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Competitions", "Competitions\Competitions.csproj", "{50E5612A-94A4-493B-9EF2-30671EA31B65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Competitions", "Competitions\Competitions.csproj", "{50E5612A-94A4-493B-9EF2-30671EA31B65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Competitions.Core", "Core\Competitions.Core.csproj", "{EF7EC1A1-F870-48AB-925D-EC5D27BBEB49}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Competitions.Core", "Core\Competitions.Core.csproj", "{EF7EC1A1-F870-48AB-925D-EC5D27BBEB49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Competitions.DataAccess", "Competitions.DataAccess\Competitions.DataAccess.csproj", "{B8468A4D-3850-45D6-A249-CBFEC0DF6626}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Competitions.DataAccess", "Competitions.DataAccess\Competitions.DataAccess.csproj", "{B8468A4D-3850-45D6-A249-CBFEC0DF6626}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Competitions.Application", "Competitions.Application\Competitions.Application.csproj", "{EB1914D6-E28A-442B-81FF-028F7C6C287F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Competitions.Application", "Competitions.Application\Competitions.Application.csproj", "{EB1914D6-E28A-442B-81FF-028F7C6C287F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Competitions.Infrastructure", "Competitions.Infrastructure\Competitions.Infrastructure.csproj", "{2C9118C6-30B5-4EBD-A5A5-24FF590F7023}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EB1914D6-E28A-442B-81FF-028F7C6C287F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1914D6-E28A-442B-81FF-028F7C6C287F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1914D6-E28A-442B-81FF-028F7C6C287F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C9118C6-30B5-4EBD-A5A5-24FF590F7023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C9118C6-30B5-4EBD-A5A5-24FF590F7023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C9118C6-30B5-4EBD-A5A5-24FF590F7023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C9118C6-30B5-4EBD-A5A5-24FF590F7023}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

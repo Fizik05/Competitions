@@ -1,15 +1,24 @@
 using Competitions.Application.Services;
+using Competitions.Core.Abstractions.Auth;
 using Competitions.Core.Abstractions.CoachesAbstractions;
 using Competitions.Core.Abstractions.CompetitionsAbstractions;
 using Competitions.Core.Abstractions.KindOfSportsAbstractions;
 using Competitions.Core.Abstractions.StudentsAbstractions;
 using Competitions.Core.Abstractions.TeamsAbstractions;
 using Competitions.Core.Abstractions.UniversittiesAbstractions;
+using Competitions.Core.Abstractions.UsersAbstractions;
 using Competitions.DataAccess;
 using Competitions.DataAccess.Repositories;
+using Competitions.Extensions;
+using Competitions.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+services.Configure<JwtOptions>(configuration.GetSection(nameof(JwtOptions)));
+services.AddApiAuthentication(configuration);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -39,6 +48,12 @@ builder.Services.AddScoped<ITeamsRepository, TeamsRepository>();
 builder.Services.AddScoped<IUniversitiesService, UniversitiesService>();
 builder.Services.AddScoped<IUniversitiesRepository, UniversitiesRepository>();
 
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<UsersService>();
+
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -47,8 +62,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

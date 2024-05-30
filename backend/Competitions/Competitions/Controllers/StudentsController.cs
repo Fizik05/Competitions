@@ -1,6 +1,7 @@
 ﻿using Competitions.Contracts.Students;
 using Competitions.Core.Abstractions.StudentsAbstractions;
 using Competitions.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Competitions.Controllers
@@ -17,6 +18,7 @@ namespace Competitions.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<StudentsResponse>>> GetAllStudents()
         {
             var students = await _studentsService.GetAllStudents();

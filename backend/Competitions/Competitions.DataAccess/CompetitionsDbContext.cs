@@ -17,5 +17,6 @@ namespace Competitions.DataAccess
         public DbSet<StudentEntity> Students { get; set; }
         public DbSet<TeamEntity> Teams { get; set; }
         public DbSet<UniversityEntity> Universities { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
     }
 }
