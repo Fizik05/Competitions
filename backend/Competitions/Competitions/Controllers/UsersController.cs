@@ -1,5 +1,6 @@
 ﻿using Competitions.Application.Services;
 using Competitions.Contracts.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Competitions.Controllers
@@ -23,14 +24,22 @@ namespace Competitions.Controllers
         }
 
         [HttpPost("/login")]
-        public async Task<IResult> Login([FromBody] LoginUserRequest request/*, HttpContext context*/)
+        public async Task<IResult> Login([FromBody] LoginUserRequest request)
         {
             var token = await _usersService.Login(request.Email, request.Password);
 
             Response.Cookies.Append("JwtToken", token);
-            /*context.Response.Cookies.Append("JWT-Token", token);*/
 
             return Results.Ok(token);
+        }
+
+        [HttpPost("/logout")]
+        [Authorize]
+        public async Task<IResult> Logout()
+        {
+            Response.Cookies.Delete("JwtToken");
+
+            return Results.Ok();
         }
     }
 }
