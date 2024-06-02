@@ -149,7 +149,7 @@ namespace Competitions.DataAccess.Repositories
         public async Task<Result<List<Competition>>> AddCompetition(int id, int competitionId)
         {
             var competition = await _context.Competitions
-                .Include(c => c.KindOfSportId)
+                .Include(c => c.KindOfSport)
                 .Include(c => c.Teams)
                 .Where(c => c.Id == competitionId)
                 .FirstOrDefaultAsync();

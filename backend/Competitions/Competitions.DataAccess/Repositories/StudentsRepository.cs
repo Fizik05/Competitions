@@ -68,6 +68,7 @@ namespace Competitions.DataAccess.Repositories
                 .Include(t => t.KindOfSport)
                 .Include(t => t.University)
                 .Include(t => t.Coach)
+                .Include(t => t.Competitions)
                 .Where(t => t.Id == studentEntity.TeamId)
                 .FirstOrDefaultAsync();
 
@@ -82,6 +83,14 @@ namespace Competitions.DataAccess.Repositories
                 teamEntity.Coach.Name,
                 teamEntity.Coach.Surname,
                 teamEntity.Coach.DateOfBirth).coach;
+            var competitions = teamEntity.Competitions
+                .Select(c => Competition.Create(
+                    c.Id,
+                    c.Name,
+                    c.Description,
+                    c.KindOfSportId,
+                    kindOfSport).competition)
+                .ToList();
 
             var team = Team.Create(
                 teamEntity.Id,
@@ -92,6 +101,8 @@ namespace Competitions.DataAccess.Repositories
                 kindOfSport,
                 university,
                 coach).team;
+
+            team.Competitions = competitions;
 
             var student = Student.Create(studentEntity.Id, studentEntity.Name, studentEntity.Surname, studentEntity.DateOfBirth, studentEntity.TeamId, team).student;
 

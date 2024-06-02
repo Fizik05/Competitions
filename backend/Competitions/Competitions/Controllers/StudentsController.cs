@@ -44,6 +44,21 @@ namespace Competitions.Controllers
             return Ok(response);
         }
 
+        /*[HttpGet("{id:int}")]
+        public async Task<ActionResult<StudentsResponse>> GetStudentById(int id)
+        {
+            var (student, error) = await _studentsService.GetStudentById(id);
+
+            if (!string.IsNullOrEmpty(error) || student is null)
+            {
+                return BadRequest(error);
+            }
+
+            var response = new StudentsResponse(student.Id, student.Name, student.Surname, student.DateOfBirth, student.Team);
+
+            return Ok(response);
+        }*/
+
         [HttpPost]
         public async Task<ActionResult<StudentsResponse>> CreateStudent([FromBody] StudentRequest request)
         {

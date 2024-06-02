@@ -1,5 +1,4 @@
-﻿using Competitions.Core.Enums;
-using Competitions.DataAccess.Entities;
+﻿using Competitions.DataAccess.Entities;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
